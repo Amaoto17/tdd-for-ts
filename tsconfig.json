@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es2019",
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+  }
+}
