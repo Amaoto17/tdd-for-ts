@@ -1,4 +1,4 @@
-import { Money, Franc } from '../src/money';
+import { Money } from '../src/money';
 
 test('multiplication', () => {
   let five: Money = Money.dollar(5);
@@ -19,3 +19,8 @@ test('franc multiplication', () => {
   expect(five.times(2)).toStrictEqual(Money.franc(10));
   expect(five.times(3)).toStrictEqual(Money.franc(15));
 });
+
+test('currency', () => {
+  expect(Money.dollar(1).currency).toBe("USD");
+  expect(Money.franc(1).currency).toBe("CHF");
+})
