@@ -15,22 +15,10 @@ export class Money {
   }
 
   static dollar(amount: number): Money {
-    return new Dollar(amount, "USD");
+    return new Money(amount, "USD");
   }
 
   static franc(amount: number): Money {
-    return new Franc(amount, "CHF");
-  }
-}
-
-export class Dollar extends Money {
-  constructor(amount: number, _currency: string) {
-    super(amount, _currency);
-  }
-}
-
-export class Franc extends Money {
-  constructor(amount: number, _currency: string) {
-    super(amount, _currency);
+    return new Money(amount, "CHF");
   }
 }
