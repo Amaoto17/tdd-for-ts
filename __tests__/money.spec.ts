@@ -1,6 +1,7 @@
 import { Money } from '../src/money';
 import { Bank } from '../src/bank';
 import { Sum } from '../src/sum';
+import { Expression } from '../src/expression';
 
 test('multiplication', () => {
   let five = Money.dollar(5);
@@ -55,12 +56,15 @@ test('reduce money different currency', () => {
   expect(result).toEqual(Money.dollar(1));
 });
 
-test('lookup rate', () => {
-  let bank = new Bank();
-  bank.addRate("CHF", "USD", 2);
-  expect(bank.rate("CHF", "USD")).toBe(2);
-});
-
 test('identity rate', () => {
   expect(new Bank().rate("USD", "USD")).toBe(1);
+});
+
+test('mixed addition', () => {
+  let fiveBucks = Money.dollar(5);
+  let tenFrancs = Money.franc(10);
+  let bank = new Bank();
+  bank.addRate("CHF", "USD", 2);
+  let result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
+  expect(result).toEqual(Money.dollar(10));
 })
