@@ -46,4 +46,21 @@ test('reduce money', () => {
   let bank = new Bank();
   let result = bank.reduce(Money.dollar(1), "USD");
   expect(result).toEqual(Money.dollar(1));
+});
+
+test('reduce money different currency', () => {
+  let bank = new Bank();
+  bank.addRate("CHF", "USD", 2);
+  let result = bank.reduce(Money.franc(2), "USD");
+  expect(result).toEqual(Money.dollar(1));
+});
+
+test('lookup rate', () => {
+  let bank = new Bank();
+  bank.addRate("CHF", "USD", 2);
+  expect(bank.rate("CHF", "USD")).toBe(2);
+});
+
+test('identity rate', () => {
+  expect(new Bank().rate("USD", "USD")).toBe(1);
 })
