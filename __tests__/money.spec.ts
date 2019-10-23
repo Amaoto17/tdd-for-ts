@@ -67,4 +67,24 @@ test('mixed addition', () => {
   bank.addRate("CHF", "USD", 2);
   let result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
   expect(result).toEqual(Money.dollar(10));
+});
+
+test('sum plus money', () => {
+  let fiveBucks: Expression = Money.dollar(5);
+  let tenFrancs: Expression = Money.franc(10);
+  let bank = new Bank();
+  bank.addRate("CHF", "USD", 2);
+  let sum: Expression = new Sum(fiveBucks, tenFrancs).plus(fiveBucks);
+  let result = bank.reduce(sum, "USD");
+  expect(result).toEqual(Money.dollar(15));
+});
+
+test('sum times', () => {
+  let fiveBucks: Expression = Money.dollar(5);
+  let tenFrancs: Expression = Money.franc(10);
+  let bank = new Bank();
+  bank.addRate("CHF", "USD", 2);
+  let sum = new Sum(fiveBucks, tenFrancs).times(2);
+  let result = bank.reduce(sum, "USD");
+  expect(result).toEqual(Money.dollar(20));
 })
