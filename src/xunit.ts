@@ -12,8 +12,12 @@ class TestCase {
     const result = new TestResult();
     result.testStarted();
     this.setUp();
-    const method = "this." + this.name + "()";
-    eval(method);
+    try {
+      const method = `this.${this.name}()`;
+      eval(method);
+    } catch {
+      result.testFailed();
+    }
     this.tearDown();
     return result;
   }
@@ -57,20 +61,33 @@ class TestCaseTest extends TestCase {
     const result = _test.run();
     assert.ok(result.summary() === "1 run, 1 failed");
   }
+
+  testFailedResultFormatting() {
+    const result = new TestResult();
+    result.testStarted();
+    result.testFailed();
+    assert.ok(result.summary() === "1 run, 1 failed");
+  }
 }
 
 class TestResult {
   private runCount = 0;
+  private errorCount = 0;
 
   testStarted() {
     this.runCount++;
   }
 
+  testFailed() {
+    this.errorCount++;
+  }
+
   summary() {
-    return this.runCount + " run, 0 failed"
+    return `${this.runCount} run, ${this.errorCount} failed`;
   }
 }
 
-new TestCaseTest("testTemplateMethod").run();
-new TestCaseTest("testResult").run();
-// new TestCaseTest("testFailedResult").run();
+console.log(new TestCaseTest("testTemplateMethod").run().summary());
+console.log(new TestCaseTest("testResult").run().summary());
+console.log(new TestCaseTest("testFailedResult").run().summary());
+console.log(new TestCaseTest("testFailedResultFormatting").run().summary());
