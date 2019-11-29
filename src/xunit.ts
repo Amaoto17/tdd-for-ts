@@ -6,46 +6,42 @@ class TestCase {
 
   setUp() {}
 
+  tearDown() {}
+
   run() {
     this.setUp();
     const method = "this." + this.name + "()";
     eval(method);
+    this.tearDown();
   }
 }
 
 class WasRun extends TestCase {
-  public wasRun = false;
-  public wasSetUp = false;
+  public log = "";
 
   constructor(name: string) { super(name); }
 
   setUp() {
-    this.wasSetUp = true;
+    this.log = "setUp ";
   }
 
   testMethod() {
-    this.wasRun = true;
+    this.log += "testMethod ";
+  }
+
+  tearDown() {
+    this.log += "tearDown ";
   }
 }
 
 class TestCaseTest extends TestCase {
-  public _test: WasRun = new WasRun("testMethod");
-
   constructor(name: string) { super(name); }
 
-  setUp() {
-  }
-
-  testRunning() {
-    this._test.run();
-    assert.ok(this._test.wasRun);
-  }
-
-  testSetUp() {
-    this._test.run();
-    assert.ok(this._test.wasSetUp);
+  testTemplateMethod() {
+    const _test = new WasRun("testMethod");
+    _test.run();
+    assert.ok(_test.log === "setUp testMethod tearDown ");
   }
 }
 
-new TestCaseTest("testRunning").run();
-new TestCaseTest("testSetUp").run();
+new TestCaseTest("testTemplateMethod").run();
