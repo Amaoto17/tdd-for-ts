@@ -1,5 +1,8 @@
 # tdd-for-ts
 『テスト駆動開発』をTypeScriptで書く
 
-## 実行
+## テストを実行(Jest)
 `npm test`
+
+## .tsファイルを直接実行(ts-node)
+`npm run exec <filename>`
